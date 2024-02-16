@@ -27,7 +27,7 @@ CREATE TABLE tb_clientestb_clientes
   estado varchar (2)
 );
 /*****************/
-
+tb_clientestb_clientestb_clientesnome
 /***** TABELA FORNECEDORES *****/
 CREATE TABLE tb_fornecedores (
   id int auto_increment primary key,

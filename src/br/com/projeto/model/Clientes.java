@@ -9,6 +9,7 @@ package br.com.projeto.model;
  * @author Vinicius Devenezio
  */
 public class Clientes {
+
     private int id;
     private String nome;
     private String rg;
@@ -135,8 +136,5 @@ public class Clientes {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    
-    
-    
-    
+
 }
