@@ -5,14 +5,14 @@
 package br.com.projeto.dao;
 
 import br.com.projeto.jdbc.ConnectionFactory;
-import java.sql.Connection;
 import br.com.projeto.model.Clientes;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
-import javax.swing.JOptionPane;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 
 public class ClientesDAO {
 
@@ -24,12 +24,10 @@ public class ClientesDAO {
 
     public void cadastrarCliente(Clientes obj) {
         try {
-            // Comando de inserção
             String sql = "insert into tb_clientes (nome, rg, cpf, email, telefone, celular, cep, endereco, numero, complemento, bairro, cidade, estado) "
                     + "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-            try ( // Conectar e organizar o banco de dados
-                    PreparedStatement stmt = con.prepareStatement(sql)) {
+            try (PreparedStatement stmt = con.prepareStatement(sql)) {
                 stmt.setString(1, obj.getNome());
                 stmt.setString(2, obj.getRg());
                 stmt.setString(3, obj.getCpf());
@@ -44,28 +42,63 @@ public class ClientesDAO {
                 stmt.setString(12, obj.getCidade());
                 stmt.setString(13, obj.getEstado());
 
-                // Executando o comando Sql
                 stmt.execute();
             }
             JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!");
 
         } catch (SQLException erro) {
-            JOptionPane.showMessageDialog(null, "Erro:" + erro);// Isso vai imprimir o erro no console
+            JOptionPane.showMessageDialog(null, "Erro:" + erro);
         }
     }
 
-    public void alterarCliente() {
-        // Implementação do método de alterarCliente
+    public void alterarCliente(Clientes obj) {
+        try {
+            String sql = "update tb_clientes set nome=?, rg=?, cpf=?, email=?, telefone=?, celular=?, cep=?, "
+                    + "endereco=?, numero=?, complemento=?, bairro=?, cidade=?, estado=? where id=?";
+
+            try (PreparedStatement stmt = con.prepareStatement(sql)) {
+                stmt.setString(1, obj.getNome());
+                stmt.setString(2, obj.getRg());
+                stmt.setString(3, obj.getCpf());
+                stmt.setString(4, obj.getEmail());
+                stmt.setString(5, obj.getTelefone());
+                stmt.setString(6, obj.getCelular());
+                stmt.setString(7, obj.getCep());
+                stmt.setString(8, obj.getEndereco());
+                stmt.setInt(9, obj.getNumero());
+                stmt.setString(10, obj.getComplemento());
+                stmt.setString(11, obj.getBairro());
+                stmt.setString(12, obj.getCidade());
+                stmt.setString(13, obj.getEstado());
+                stmt.setInt(14, obj.getId());
+                stmt.execute();
+            }
+            JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!");
+
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Erro:" + erro);
+        }
     }
 
-    public void excluirCliente() {
-        // Implementação do método de excluirCliente
+    public void excluirCliente(Clientes obj) {
+        try {
+            String sql = "delete from tb_clientes where id = ?";
+
+            try (PreparedStatement stmt = con.prepareStatement(sql)) {
+                stmt.setInt(1, obj.getId());
+
+                stmt.execute();
+            }
+            JOptionPane.showMessageDialog(null, "Excluido com sucesso!");
+
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Erro:" + erro);
+        }
     }
 
-    public List<Clientes> listarCliente() {
+    public List<Clientes> listarClientes() {
         try {
             List<Clientes> lista = new ArrayList<>();
-
             String sql = "select * from tb_clientes";
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
@@ -94,6 +127,5 @@ public class ClientesDAO {
             JOptionPane.showMessageDialog(null, "Erro:" + erro);
             return null;
         }
-
     }
 }
